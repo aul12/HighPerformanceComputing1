@@ -4,4 +4,4 @@ project(04 C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(${PROJECT_NAME} main.c)
-target_compile_options(${PROJECT_NAME} PRIVATE -O3 -mtune=native -march=native)
+#target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -O3 -mtune=native -march=native)
