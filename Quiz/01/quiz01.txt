@@ -1,0 +1,58 @@
+# Question 1
+I assume there is a function isRowMajor which returns true if the matrix is stored in row major format, else false.
+
+function gemv(A, x, y, alpha, beta)
+     * Shape of A is m*n
+     * Shape of x is n
+     * Shape of y is m, y is passed as reference
+     * alpha, beta are scalars
+    if beta=0:
+        for i in {1,...,m}:
+            y_i <- 0
+    else:
+        for i in {1,...,m}:
+            y_i <- y_i * beta
+
+    if alpha != 0:
+        if isRowMajor(A):
+            for i in {1,...,m}:
+                for j in {1,...,n}:
+                    y_i <- y_i + A_{ij} * x_j * alpha
+        else:
+            for j in {1,...,n}:
+                for i in {1,...,m}:
+                    y_i <- y_i + A_{ij} * x_j * alpha
+
+
+# Question 3
+## Wall time vs. CPU time
+Wall time is the absolute time. When benchmarking a program it is the real world time that elapsed time during the
+execution of the program (or part thereof). CPU time is the time the the program actually spent using the CPU.
+
+The difference is important when the program does not run at all times (for example due to scheduling by the OS), in
+this case the CPU time is less than the wall time. The opposite is true if a program uses multiple threads. In this
+case the CPU time can be larger than the wall time.
+
+## MIN_T macro
+To reduce the uncertainty of the measurements the measurements are run multiple times and an average over all
+measurements is then taken. The repetitions are not specified as an absolute count but as a minimum time the benchmark
+should run. This minimum time is specified by MIN_T (in seconds).
+
+## initMatrix
+The initialization is given by:
+
+```
+void
+initMatrix(size_t m, size_t n, double *A, size_t incRowA, size_t incColA)
+{
+   for (size_t j = 0; j < n; ++j) {
+      for (size_t i = 0; i < m; ++i) {
+         A[i*incRowA+j*incColA] = j*n+i+1;
+      }
+   }
+}
+```
+
+the outer loop (with index j) iterates over the columns, the inner loop (with index i) iterates over the rows. I.e. the
+initialization iterates over the matrix column by column, thus the initialization is in column major order. This results
+in faster initialization if the matrix is in column major order as well. Thus the favored organization is column major.
