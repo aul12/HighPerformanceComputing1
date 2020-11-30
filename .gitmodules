@@ -1,5 +1,5 @@
-[submodule "09/lib/fmt"]
-	path = 09/lib/fmt
+[submodule "Sessions/09/lib/fmt"]
+	path = Sessions/09/lib/fmt
 	url = git@github.com:afborchert/fmt.git
 [submodule "Quiz/02/lib/fmt"]
 	path = Quiz/02/lib/fmt
