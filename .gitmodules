@@ -4,3 +4,6 @@
 [submodule "Quiz/02/lib/fmt"]
 	path = Quiz/02/lib/fmt
 	url = git@github.com:afborchert/fmt.git
+[submodule "Sessions/10/lib/fmt"]
+	path = Sessions/10/lib/fmt
+	url = git@github.com:afborchert/fmt.git

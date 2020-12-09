@@ -288,7 +288,7 @@ main()
                 "incRowA", "incColA", "incRowB", "incColB",
                 "alpha", "beta", "error", "tRef", "tTst",
                 "mflops: ref", "tst");
-    for (std::size_t m=100, n=100, k=100;
+    for (std::size_t m=300, n=300, k=300;
          m <= DIM_MAX_M && n <= DIM_MAX_N && k <= DIM_MAX_K;
          m += 100, n +=100, k += 100)
     {
@@ -346,6 +346,12 @@ main()
                       BETA,
                       Ctst, incRowC, incColC);
         tTst = test::wallTime() - tTst;
+
+        /*fmt::printf("Ref:\n");
+        test::printMatrix(10, 10, Cref, incRowC, incColC);
+        fmt::printf("Test:\n");
+        test::printMatrix(10, 10, Ctst, incRowC, incColC);
+        fmt::printf("\n\n\n\n");*/
 
         double err = test::gemm_err_est(m, n, k,
                                         ALPHA,

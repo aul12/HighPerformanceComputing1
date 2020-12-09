@@ -1,12 +1,3 @@
-/**
- * @file gemm.hpp.h
- * @author paul
- * @date 04.12.20
- * Description here TODO
- */
-#ifndef INC_10_GEMM_HPP
-#define INC_10_GEMM_HPP
-
 #include <cassert>      // for assert()
 #include <cstddef>      // for std::size_t, std::ptrdiff_t
 #include <cstdlib>      // for abort()
@@ -46,11 +37,11 @@ namespace tools {
 
             DoubleArray(const DoubleArray &) = delete;
 
-            auto operator=(const DoubleArray &) = delete;
+            auto operator=(const DoubleArray &) -> DoubleArray& = delete;
 
             DoubleArray(DoubleArray &&) = delete;
 
-            auto operator=(DoubleArray &&) = delete;
+            auto operator=(DoubleArray &&) -> DoubleArray& = delete;
 
             ~DoubleArray() { delete[] ptr; }
 
@@ -258,7 +249,7 @@ namespace ulmblas {
         gescal(m, n, beta, C, incRowC, incColC);
         beta = 1;
 
-        if (k != 0 and alpha != 0) {
+        if (k != 0) {
             for (auto i = 0U; i < m; i += MC) {
                 for (auto j = 0U; j < n; j += NC) {
                     for (auto l = 0U; l < k; l += KC) {
@@ -273,11 +264,29 @@ namespace ulmblas {
                     }
                 }
             }
+        } else {
+            gescal(m, n, beta, C, incRowC, incColC);
         }
+
     }
 
 } // namespace ulmblas
 
+#define TRANSPOSED(trans) (*(trans)=='t' or *(trans)=='T')
+
+extern "C" {
+    void
+    ulm_dgemm_(const char *transA, const char *transB, const int *m, const int *n, const int *k, const double *alpha,
+               const double *A, const int *ldA, const double *B, const int *ldB, const double *beta, double *C,
+               const int *ldC) {
+        auto incRowA = TRANSPOSED(transA) ? *ldA : 1;
+        auto incColA = TRANSPOSED(transA) ? 1 : *ldA;
+        auto incRowB = TRANSPOSED(transB) ? *ldB : 1;
+        auto incColB = TRANSPOSED(transB) ? 1 : *ldB;
+
+        ulmblas::gemm(*m, *n, *k, *alpha, A, incRowA, incColA, B, incRowB, incColB, *beta, C, 1, *ldC);
+    }
+} // extern "C"
+
 //------------------------------------------------------------------------------
 
-#endif //INC_10_GEMM_HPP
