@@ -92,12 +92,13 @@ namespace test {
 
         auto eps = std::numeric_limits<T>::epsilon();
 
+        auto tmp = norminf(m, n, A, 1, m);
+
         delete [] U;
         delete [] L;
         delete [] A;
 
-        return norminf(m, n, A, 1, m)
-               / (norminf(m, n, A0, incRowA0, incColA0)*eps*std::min(m,n));
+        return tmp / (norminf(m, n, A0, incRowA0, incColA0)*eps*std::min(m,n));
     }
 
 

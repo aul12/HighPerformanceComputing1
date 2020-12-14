@@ -98,8 +98,8 @@ lu_ger(std::size_t m, std::size_t n,
 
 int
 main() {
-    std::size_t m = 5;
-    std::size_t n = 5;
+    std::size_t m = 500;
+    std::size_t n = 500;
     std::ptrdiff_t incRowA = COLMAJOR ? 1 : n;
     std::ptrdiff_t incColA = COLMAJOR ? m : 1;
     std::ptrdiff_t incP = 1;
